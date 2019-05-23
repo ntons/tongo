@@ -8,8 +8,8 @@
 extern "C" {
 #endif
 
-    int skiplist_new();
-    int skiplist_destroy();
+    void* skiplist_new();
+    void* skiplist_destroy();
 
 #ifdef __cplusplus
 }
