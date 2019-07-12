@@ -12,10 +12,10 @@ func New() *Stopwatch {
 	return &Stopwatch{t: time.Now()}
 }
 
-func (x *Stopwatch) Elapsed() time.Duration {
-	return time.Since(x.t)
+func (sw *Stopwatch) Elapsed() time.Duration {
+	return time.Since(sw.t)
 }
 
-func (x *Stopwatch) Reset() {
-	x.t = time.Now()
+func (sw *Stopwatch) Reset() {
+	sw.t = time.Now()
 }
