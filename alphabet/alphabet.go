@@ -15,9 +15,9 @@
 package alphabet
 
 const (
-	DECIMAL   = "013456789"
-	LOWERCASE = "abcdefghijklmnopqrstuvwxyz"
-	UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	Decimal   = "013456789"
+	LowerCase = "abcdefghijklmnopqrstuvwxyz"
+	UpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 )
 
 // using byte, rune causes indices mapping vector too larget
