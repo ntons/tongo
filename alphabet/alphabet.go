@@ -15,7 +15,7 @@
 package alphabet
 
 const (
-	Decimal   = "013456789"
+	Decimal   = "0123456789"
 	LowerCase = "abcdefghijklmnopqrstuvwxyz"
 	UpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 )
