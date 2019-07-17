@@ -21,7 +21,7 @@ import (
 	"github.com/ntons/tons-go/alphabet"
 )
 
-const ABC = alphabet.LOWERCASE + alphabet.DECIMAL + "-_"
+const ABC = alphabet.LowerCase + alphabet.Decimal + "-_"
 
 func RandString(maxLen int) string {
 	n := rand.Intn(maxLen + 1)
@@ -33,7 +33,7 @@ func RandString(maxLen int) string {
 }
 
 func TestTrie(tt *testing.T) {
-	t := New(ABC)
+	t := New(alphabet.New(ABC))
 	m := make(map[string]interface{})
 
 	for i := 0; i < 1000000; i++ {

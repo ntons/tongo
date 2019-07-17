@@ -50,8 +50,8 @@ type Trie struct {
 	root *node
 }
 
-func New(abc string) *Trie {
-	return &Trie{abc: alphabet.New(abc)}
+func New(abc *alphabet.Alphabet) *Trie {
+	return &Trie{abc: abc}
 }
 
 func (t *Trie) Size() int {
