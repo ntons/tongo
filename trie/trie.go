@@ -46,15 +46,15 @@ func (x *node) getValue() interface{} {
 
 // Trie Searching Tree
 type Trie struct {
-	abc  *alphabet.Alphabet
+	ab   *alphabet.Alphabet
 	root *node
 }
 
-func New(abc *alphabet.Alphabet) *Trie {
-	return &Trie{abc: abc}
+func New(ab *alphabet.Alphabet) *Trie {
+	return &Trie{ab: ab}
 }
 
-func (t *Trie) Size() int {
+func (t *Trie) Len() int {
 	return t.root.getSize()
 }
 
@@ -68,7 +68,7 @@ func (t *Trie) get(xx *node, s string) (x *node) {
 	if len(s) == 0 {
 		return
 	}
-	index := t.abc.ToIndex(s[0])
+	index := t.ab.ToIndex(s[0])
 	return t.get(x.next[index], s[1:])
 }
 
@@ -77,7 +77,7 @@ func (t *Trie) Put(s string, v interface{}) {
 }
 func (t *Trie) put(xx *node, s string, v interface{}) (x *node) {
 	if x = xx; x == nil {
-		x = newNode(t.abc.R())
+		x = newNode(t.ab.Len())
 	}
 	if len(s) == 0 {
 		if x.value == nil {
@@ -86,7 +86,7 @@ func (t *Trie) put(xx *node, s string, v interface{}) (x *node) {
 		x.value = v
 		return
 	}
-	index := t.abc.ToIndex(s[0])
+	index := t.ab.ToIndex(s[0])
 	size := x.next[index].getSize()
 	x.next[index] = t.put(x.next[index], s[1:], v)
 	if x.next[index].getSize() != size {
@@ -108,7 +108,7 @@ func (t *Trie) del(xx *node, s string) (x *node) {
 		}
 		x.value = nil
 	} else {
-		index := t.abc.ToIndex(s[0])
+		index := t.ab.ToIndex(s[0])
 		size := x.next[index].getSize()
 		x.next[index] = t.del(x.next[index], s[1:])
 		if x.next[index].getSize() != size {
@@ -135,7 +135,7 @@ func (t *Trie) collect(x *node, s string) (a []string) {
 		a = append(a, s)
 	}
 	for i, _ := range x.next {
-		a = append(a, t.collect(x.next[i], s+t.abc.ToString(i))...)
+		a = append(a, t.collect(x.next[i], s+t.ab.ToString(i))...)
 	}
 	return
 }

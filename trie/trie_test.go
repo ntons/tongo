@@ -48,7 +48,7 @@ func TestTrie(tt *testing.T) {
 			t.Del(s)
 			delete(m, s)
 		}
-		if v1, v2 := t.Size(), len(m); v1 != v2 {
+		if v1, v2 := t.Len(), len(m); v1 != v2 {
 			tt.Fatalf("length mismatch: %q, %v, %v", s, v1, v2)
 			return
 		}

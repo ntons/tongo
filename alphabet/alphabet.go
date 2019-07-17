@@ -26,45 +26,45 @@ type Alphabet struct {
 	m [256]int // indices mapping vector
 }
 
-func New(s string) (abc *Alphabet) {
-	abc = &Alphabet{s: s}
-	for i, _ := range abc.m {
-		abc.m[i] = -1
+func New(s string) (ab *Alphabet) {
+	ab = &Alphabet{s: s}
+	for i, _ := range ab.m {
+		ab.m[i] = -1
 	}
 	for i, n := 0, len(s); i < n; i++ {
-		abc.m[s[i]] = i
+		ab.m[s[i]] = i
 	}
 	return
 }
 
-func (abc *Alphabet) R() int {
-	return len(abc.s)
+func (ab *Alphabet) Len() int {
+	return len(ab.s)
 }
 
-func (abc *Alphabet) ToIndex(b byte) (index int) {
-	return abc.m[b]
+func (ab *Alphabet) ToIndex(b byte) (index int) {
+	return ab.m[b]
 }
-func (abc *Alphabet) ToIndices(s string) (indices []int) {
+func (ab *Alphabet) ToIndices(s string) (indices []int) {
 	for i, n := 0, len(s); i < n; i++ {
-		indices = append(indices, abc.m[s[i]])
+		indices = append(indices, ab.m[s[i]])
 	}
 	return
 }
 
-func (abc *Alphabet) ToByte(index int) (b byte) {
-	return abc.s[index]
+func (ab *Alphabet) ToByte(index int) (b byte) {
+	return ab.s[index]
 }
-func (abc *Alphabet) ToBytes(indices []int) (s []byte) {
+func (ab *Alphabet) ToBytes(indices []int) (s []byte) {
 	s = make([]byte, 0, len(indices))
 	for _, index := range indices {
-		s = append(s, abc.ToByte(index))
+		s = append(s, ab.ToByte(index))
 	}
 	return
 }
-func (abc *Alphabet) ToString(indices ...int) (s string) {
-	return string(abc.ToBytes(indices))
+func (ab *Alphabet) ToString(indices ...int) (s string) {
+	return string(ab.ToBytes(indices))
 }
 
-func (abc *Alphabet) Contains(b byte) bool {
-	return abc.ToIndex(b) != -1
+func (ab *Alphabet) Contains(b byte) bool {
+	return ab.ToIndex(b) != -1
 }
