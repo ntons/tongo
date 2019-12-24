@@ -15,7 +15,7 @@
 package trie
 
 import (
-	"github.com/ntons/tons-go/alphabet"
+	"github.com/ntons/tongo/alphabet"
 )
 
 // Node of Trie

@@ -18,7 +18,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/ntons/tons-go/alphabet"
+	"github.com/ntons/tongo/alphabet"
 )
 
 const ABC = alphabet.LowerCase + alphabet.Decimal + "-_"
