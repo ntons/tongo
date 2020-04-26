@@ -9,7 +9,7 @@ import (
 
 func TestString(t *testing.T) {
 	b := []byte("Hello World")
-	s := String(b)
+	s := BytesToString(b)
 	if s != "Hello World" {
 		t.Fatalf("content mismatch")
 	}
@@ -25,7 +25,7 @@ func TestString(t *testing.T) {
 
 func TestBytes(t *testing.T) {
 	s := "Hello World"
-	b := Bytes(s)
+	b := StringToBytes(s)
 	if !bytes.Equal(b, []byte("Hello World")) {
 		t.Fatalf("content mismatch")
 	}
