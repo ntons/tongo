@@ -1,4 +1,4 @@
-package tunsafe
+package nocopy
 
 import (
 	"reflect"
