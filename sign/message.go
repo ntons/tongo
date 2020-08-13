@@ -11,11 +11,10 @@ import (
 
 // {a: { b: "a.b", c: { d: "a.c.d" } }, e: "e"}
 // a.b=xxx&a.c.d=xxx&e=xxx
-func MessageToValues(msg proto.Message) (values url.Values) {
-	return msgToValues("", msg.ProtoReflect())
+func MessageToValues(msg proto.Message) (vals url.Values) {
+	return messageToValues("", msg.ProtoReflect())
 }
 
-// join v2 INTO v1
 func joinValues(dest, src url.Values) {
 	for key, value := range src {
 		dest[key] = value
@@ -33,58 +32,58 @@ func joinFullPath(a ...interface{}) string {
 	return sb.String()
 }
 
-func msgToValues(prefix string, msg reflect.Message) (values url.Values) {
-	values = url.Values{}
+func messageToValues(pre string, msg reflect.Message) (vals url.Values) {
+	vals = url.Values{}
 	msg.Range(func(fd reflect.FieldDescriptor, v reflect.Value) bool {
 		if fd.IsMap() {
-			joinValues(values, mapToValues(prefix, fd, v))
+			joinValues(vals, mapToValues(pre, fd, v))
 		} else if fd.IsList() {
-			joinValues(values, listToValues(prefix, fd, v))
+			joinValues(vals, listToValues(pre, fd, v))
 		} else {
-			fullPath := joinFullPath(prefix, fd.Name())
-			joinValues(values, toValues(fullPath, fd, v))
+			fullPath := joinFullPath(pre, fd.Name())
+			joinValues(vals, fieldToValues(fullPath, fd, v))
 		}
 		return true
 	})
 	return
 }
 
-func listToValues(prefix string, fd reflect.FieldDescriptor, v reflect.Value) (values url.Values) {
+func listToValues(pre string, fd reflect.FieldDescriptor, v reflect.Value) (vals url.Values) {
 	if !fd.IsList() {
 		panic("not list")
 	}
-	values = url.Values{}
+	vals = url.Values{}
 	for i := 0; i < v.List().Len(); i++ {
-		fullPath := joinFullPath(prefix, fd.Name(), i)
-		joinValues(values, toValues(fullPath, fd, v.List().Get(i)))
+		fullPath := joinFullPath(pre, fd.Name(), i)
+		joinValues(vals, fieldToValues(fullPath, fd, v.List().Get(i)))
 	}
 	return
 }
 
-func mapToValues(prefix string, fd reflect.FieldDescriptor, v reflect.Value) (values url.Values) {
+func mapToValues(pre string, fd reflect.FieldDescriptor, v reflect.Value) (vals url.Values) {
 	if !fd.IsMap() {
 		panic("not map")
 	}
-	values = url.Values{}
+	vals = url.Values{}
 	v.Map().Range(func(k reflect.MapKey, v reflect.Value) bool {
-		fullPath := joinFullPath(prefix, fd.Name(), k)
-		joinValues(values, toValues(fullPath, fd.MapValue(), v))
+		fullPath := joinFullPath(pre, fd.Name(), k)
+		joinValues(vals, fieldToValues(fullPath, fd.MapValue(), v))
 		return true
 	})
 	return
 }
 
-func toValues(fullPath string, fd reflect.FieldDescriptor, v reflect.Value) (values url.Values) {
-	values = url.Values{}
+func fieldToValues(fullPath string, fd reflect.FieldDescriptor, v reflect.Value) (vals url.Values) {
+	vals = url.Values{}
 	switch fd.Kind() {
 	case reflect.BoolKind:
 		if !v.Bool() {
-			values.Set(fullPath, "0")
+			vals.Set(fullPath, "0")
 		} else {
-			values.Set(fullPath, "1")
+			vals.Set(fullPath, "1")
 		}
 	case reflect.EnumKind:
-		values.Set(fullPath, fmt.Sprintf("%d", v.Enum()))
+		vals.Set(fullPath, fmt.Sprintf("%d", v.Enum()))
 	case reflect.Int32Kind:
 		fallthrough
 	case reflect.Sint32Kind:
@@ -110,11 +109,11 @@ func toValues(fullPath string, fd reflect.FieldDescriptor, v reflect.Value) (val
 	case reflect.DoubleKind:
 		fallthrough
 	case reflect.StringKind:
-		values.Set(fullPath, v.String())
+		vals.Set(fullPath, v.String())
 	case reflect.BytesKind:
-		values.Set(fullPath, fmt.Sprintf("%x", v.Bytes()))
+		vals.Set(fullPath, fmt.Sprintf("%x", v.Bytes()))
 	case reflect.MessageKind:
-		joinValues(values, msgToValues(fullPath, v.Message()))
+		joinValues(vals, messageToValues(fullPath, v.Message()))
 	case reflect.GroupKind:
 		// Note that this feature is deprecated
 		// and should not be used when creating new message types

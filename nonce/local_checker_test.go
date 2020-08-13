@@ -6,7 +6,7 @@ import (
 )
 
 func TestLocalChecker(t *testing.T) {
-	var checker Checker = NewLocalChecker(time.Second)
+	var checker Checker = NewLocalChecker(WithTimeout(time.Second))
 
 	if !checker.Check("1") {
 		t.Fatal("1")
