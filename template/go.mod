@@ -37,6 +37,9 @@ require (
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )
 
+// etcd is not compatible well with go modules right now,
+// the issue may be fixed in v3.5.z
+
 replace github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.5
 
 replace go.etcd.io/bbolt => github.com/coreos/bbolt v1.3.5
