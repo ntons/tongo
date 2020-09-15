@@ -39,4 +39,4 @@ require (
 
 replace github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.5
 
-//replace go.etcd.io/bbolt => github.com/coreos/bbolt v1.3.5
+replace go.etcd.io/bbolt => github.com/coreos/bbolt v1.3.5
