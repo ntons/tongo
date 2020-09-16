@@ -20,7 +20,7 @@ func New() *Event {
 	return &Event{}
 }
 
-func (e *Event) Watch(callback CallbackFunc) (cancel CancelFunc) {
+func (e *Event) Watch(callback CallbackFunc) CancelFunc {
 	id := 0
 	if n := len(e.entries); n > 0 {
 		id = e.entries[n-1].id + 1
@@ -39,7 +39,7 @@ func (e *Event) Watch(callback CallbackFunc) (cancel CancelFunc) {
 	}
 }
 
-func (e *Event) Trigger(x interface{}) {
+func (e *Event) Emit(x interface{}) {
 	for _, _e := range e.entries {
 		if _e.callback != nil {
 			_e.callback(x)

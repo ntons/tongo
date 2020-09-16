@@ -2,8 +2,7 @@ package event
 
 type Events map[string]*Event
 
-func (es Events) Watch(
-	name string, callback CallbackFunc) (cancel CancelFunc) {
+func (es Events) Watch(name string, callback CallbackFunc) CancelFunc {
 	e, ok := es[name]
 	if !ok {
 		e = New()
@@ -12,8 +11,8 @@ func (es Events) Watch(
 	return e.Watch(callback)
 }
 
-func (es Events) Trigger(name string, x interface{}) {
+func (es Events) Emit(name string, x interface{}) {
 	if e, ok := es[name]; ok {
-		e.Trigger(x)
+		e.Emit(x)
 	}
 }
