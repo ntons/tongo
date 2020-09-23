@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package sign;
+
+option go_package=".;sign";
+
+message Bar {
+    string x2 = 2;
+    int32  x3 = 3;
+}
+
+message Foo {
+    repeated string x1 = 1;
+    string x2 = 2;
+    int32  x3 = 3;
+    map<string, string> x4 = 4;
+    string x5_xyz = 5;
+}
