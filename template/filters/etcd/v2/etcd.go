@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/etcd-io/etcd/client"
 	"github.com/flosch/pongo2"
+	"go.etcd.io/etcd/v3/client"
 )
 
 func init() {
