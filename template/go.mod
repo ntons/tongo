@@ -7,5 +7,5 @@ go 1.14
 
 require (
 	github.com/flosch/pongo2 v0.0.0-20200913210552-0d938eb266f3
-	go.etcd.io/etcd/v3 v3.3.0-rc.0.0.20200930024832-ab4cc3caef3d
+	go.etcd.io/etcd/v3 v3.3.0-rc.0.0.20201005151409-0693e2b4df13
 )
