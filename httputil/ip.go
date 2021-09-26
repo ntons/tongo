@@ -74,22 +74,30 @@ func getValues(m map[string][]string, k string) ([]string, bool) {
 }
 func getRemoteIp(m map[string][]string) (ip string) {
 	if v, ok := getValues(m, "X-Envoy-External-Address"); ok {
-		// 获取经过envoy计算的外部ip
-		// 这地方应该不会有多个值
+		// 获取经过envoy计算的外部ip，这地方应该不会有多个值
 		if len(v) > 0 {
-			ip = v[0]
+			return v[0]
 		}
 	}
-	if ip == "" {
+	if v, ok := getValues(
+		m, "X-Envoy-Internal"); ok && len(v) > 0 && v[0] == "true" {
+		// 经过Envoy转发的内部请求，可信，取x-forwarded-for的第一个地址
 		if v, ok := getValues(m, "X-Forwarded-For"); ok {
-			// 经过某种代理转发的ip
-			// 从右到左去掉内网IP，第一个公网IP当作地址
-			for i := len(v) - 1; i >= 0; i-- {
-				if !isPrivateIp(v[i]) {
-					ip = v[i]
-					break
-				}
+			if len(v) > 0 {
+				return v[0]
 			}
+		}
+	}
+	if v, ok := getValues(m, "X-Forwarded-For"); ok {
+		// 经过某种代理转发的ip，从右到左去掉内网IP，第一个公网IP当作地址
+		for i := len(v) - 1; i >= 0; i-- {
+			if !isPrivateIp(v[i]) {
+				return v[i]
+			}
+		}
+		// 如果全是内网IP，那也是可信的，取第一个地址
+		if len(v) > 0 {
+			return v[0]
 		}
 	}
 	return
