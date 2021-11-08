@@ -38,7 +38,7 @@ func xTestClient(t *testing.T, cli Client) {
 }
 
 func TestSingleClient(t *testing.T) {
-	s := "redis://localhost:6379/3?dial_timeout=3&db=1&read_timeout=6s&max_retries=2"
+	s := "redis://localhost:6379?dial_timeout=3&db=1&read_timeout=6s&max_retries=2"
 	o, err := ParseURL(s)
 	if err != nil {
 		t.Fatalf("failed to parse url: %v", err)
@@ -51,7 +51,7 @@ func TestSingleClient(t *testing.T) {
 }
 
 func TestClusterClient(t *testing.T) {
-	s := "redis://localhost:6379,localhost:6479/4?dial_timeout=3&db=1&read_timeout=6s&max_retries=2"
+	s := "redis://localhost:6379,localhost:6479,localhost:6579/2?dial_timeout=3&read_timeout=6s&max_retries=2"
 	o, err := ParseURL(s)
 	if err != nil {
 		t.Fatalf("failed to parse url: %v", err)

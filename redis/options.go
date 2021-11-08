@@ -31,16 +31,15 @@ func (o *Options) getNewClient() func(*redis.Options) *redis.Client {
 func (o *Options) getClusterSlots() func(context.Context) ([]redis.ClusterSlot, error) {
 	return func(context.Context) ([]redis.ClusterSlot, error) {
 		n := len(o.NodeOptions)
-		d := 16384 / n
-		slots := make([]redis.ClusterSlot, 0, n)
+		div := divideSlots(n)
+		slots := make([]redis.ClusterSlot, n)
 		for i, node := range o.NodeOptions {
-			slots = append(slots, redis.ClusterSlot{
-				Start: d * i,
-				End:   d*i + d - 1,
+			slots[i] = redis.ClusterSlot{
+				Start: div[i][0],
+				End:   div[i][1],
 				Nodes: []redis.ClusterNode{{Addr: node.Addr}},
-			})
+			}
 		}
-		slots[n-1].End = 16384
 		return slots, nil
 	}
 }
